@@ -1,0 +1,136 @@
+openapi: "3.0.3"
+
+info:
+  version: 1.0.0
+  title: Recipe website private APIs
+servers:
+  - url: unknown
+
+paths:
+  /api/recipe:
+    post:
+      summary: Create a new recipe to store
+      operationId: storeRecipe
+      tags:
+        - Recipies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: "#/components/schemas/Recipe"
+            example:
+             id: "12345ghjk"
+             name: "Pizza Recipe"
+             ingredients:
+              - name: "dough"
+                measurment: "teaspoon"
+                amount: "0.5"
+             recipe: "first you... then you..."
+      responses:
+        "201":
+          description: you done good me boy
+        "400":
+          description: this is not good
+    get:
+      summary: Get all recipies created by specific creators
+      operationId: getRecipies
+      tags:
+       - Recipies
+      parameters:
+       - $ref: "#/components/parameters/creatorId"
+      responses:
+       "200":
+        description: you've done good
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                count:
+                  type: integer
+                  example: 100
+                  description: number of documents in query
+                result:
+                  type: array
+                  description: an array of recipe data
+                  items:
+                    $ref: "#/components/schemas/Recipe"
+
+      
+
+  /api/recipe/{recipeId}:
+    get:
+      summary: Get the recipe youre searching for
+      operationId: getOneRecipe
+      tags:
+       - Recipies
+      parameters:
+       - name: recipeId
+         in: path
+         required: true
+         description: The ID of the recipe to retrieve
+         schema:
+          type: string
+      responses:
+        "200":
+          description: youve done good me boy
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Recipe"
+
+components:
+  parameters:
+    creatorId:
+      name: customer_id
+      in: query
+      description: The unique identifier for the creator
+      schema:
+        type: string
+        example: 1234hjksa
+
+
+  schemas:
+    Recipe:
+      type: object
+      description: What a recipe will look like when it is stored
+      required:
+        - id
+        - creator_id
+        - name
+        - ingredients 
+        - recipe
+      properties:
+        id:
+          type: string
+          example: 12345hjk
+          description: Unique identifier for recipe
+        creator_id:
+          type: string
+          example: 1234hjkalaksj
+          description: The unique identifier for the creator of the recipe
+        name:
+          type: string
+          example: Pizza Recipe
+          description: Name of the recipe
+        ingredients:
+          type: object
+          description: The ingredients and amounts required by the recipe
+          properties:
+            name: 
+              type: string
+              example: Dough
+              description: The name of the ingredient
+            measurment:
+              type: string
+              example: teaspoon
+              description: Type of measuremnt
+            amount:
+              type: integer
+              example: 0.5
+        recipe:
+          type: string
+          example: first this then that
+          description: the recipe
+
