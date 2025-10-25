@@ -43,3 +43,23 @@ func GetOneRecipe(id string) (*dto.Recipe, error) {
 	return &recipe, nil
 
 }
+
+func GetRecipes(id string) (*[]dto.Recipe, error) {
+	coll := mongoClient.Database(constants.Db).Collection(constants.CollName)
+	var recipe []dto.Recipe
+
+	creatorId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	filter := bson.M{"creator_id": creatorId}
+	result, err := coll.Find(context.TODO(), filter)
+	if err != nil {
+		return nil, err
+	}
+	result.Decode(&recipe)
+
+	return &recipe, nil
+
+}
