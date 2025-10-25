@@ -21,6 +21,7 @@ paths:
                 $ref: "#/components/schemas/Recipe"
             example:
              id: "12345ghjk"
+             creator_id: "12345hjkl"
              name: "Pizza Recipe"
              ingredients:
               - name: "dough"
