@@ -57,6 +57,19 @@ paths:
                   description: an array of recipe data
                   items:
                     $ref: "#/components/schemas/Recipe"
+    patch:
+      summary: Updating a recipe with new orders
+      operationId: updateRecipe
+      tags:
+       - Recipies
+      parameters:
+       - $ref: "#/components/parameters/creatorId"
+       - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: yeah you updated
+
+
 
       
 
@@ -90,6 +103,13 @@ components:
       schema:
         type: string
         example: 1234hjksa
+    id:
+      name: _id
+      in: query
+      description: The unique identifier of the recipe
+      schema:
+        type: string
+        example: 123456hjkla
 
 
   schemas:
